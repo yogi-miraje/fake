@@ -10,7 +10,7 @@ N_PLAYERS = 6
 
 st.header('FAKE ARTIST')
 
-df = pd.read_excel('words.xlsx')
+df = pd.read_csv('words.csv')
 
 categories = df.columns.to_list()
 words = []
