@@ -4,7 +4,8 @@ import random
 import SessionState
 from PIL import Image
 
-image = Image.open('lion.jpg')
+lion_image = Image.open('lion.jpg')
+monkey_image = Image.open('home.jpg')
 N_PLAYERS = 6
 
 df = pd.read_csv('words.csv')
@@ -31,7 +32,11 @@ def show_word(category, word, player):
     sub_title(f'Player {player}')
     card(category, word, 'red')
 
-title('FAKE ARTIST')
+col1, col2 = st.beta_columns([3,1])
+with col1:
+    title('FAKE ARTIST')
+with col2:
+    st.image(monkey_image,width = None, use_column_width=False)
 
 index = random.randint(0, len(words)-1)
 display_tuple = words[index]
@@ -56,7 +61,7 @@ if next_player_button:
 
         if ss.counter >= N_PLAYERS:
             st.header('Now Draw...')
-            st.image(image, use_column_width=True)
+            st.image(lion_image, use_column_width=True)
             st.subheader('Refresh page for new round')
 
     # else:
