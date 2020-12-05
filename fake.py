@@ -44,7 +44,7 @@ display_category = display_tuple[0]
 display_word = display_tuple[1]
 fake_index = random.randint(0, N_PLAYERS-1)
 
-ss = SessionState.get(counter=0, display_category=display_category, display_word=display_word, fake_index=fake_index, show_card = True, round_over= False)
+ss = SessionState.get(counter=0, display_category=display_category, display_word=display_word, fake_index=fake_index, show_card = True, round_over= False, end_game=False)
 
 message  = title('Hand over the device to the first Player..') 
 next_player_button = st.button('Next')   
@@ -60,12 +60,19 @@ if next_player_button:
 
             ss.counter +=1
     else:
-        message = title(f'Player {ss.fake_index + 1} is Fake Artist')
+        if ss.end_game:
+            sub_title(f'Player {ss.fake_index + 1} is Fake Artist')
+        else:    
+            message = st.header('STOP !!! Now Draw...')
+            stop_image = st.image(lion_image, use_column_width=True)
+        
+        ss.end_game=True
+        
 
     ss.show_card = not ss.show_card 
 
     if ss.counter >= N_PLAYERS:
         ss.round_over = True
-        message = st.header('STOP !!! Now Draw...')
-        stop_image = st.image(lion_image, use_column_width=True)
         
+
+    
