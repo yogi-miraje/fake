@@ -7,8 +7,6 @@ from PIL import Image
 image = Image.open('lion.jpg')
 N_PLAYERS = 6
 
-
-
 df = pd.read_csv('words.csv')
 
 categories = df.columns.to_list()
@@ -41,21 +39,27 @@ display_category = display_tuple[0]
 display_word = display_tuple[1]
 fake_index = random.randint(0, N_PLAYERS-1)
 
-ss = SessionState.get(counter=0, display_category=display_category, display_word=display_word, fake_index=fake_index)
-# player_1 = st.header('Hand over to Player 1 in this round..')
-next_word_button = st.button('Next Player')
+ss = SessionState.get(counter=0, display_category=display_category, display_word=display_word, fake_index=fake_index, show_card = True)
+
+next_title  = title('Hand over the device to the first Player..') 
+next_player_button = st.button('Next')   
  
-if next_word_button:
-    # player_1.empty()
+if next_player_button:
+    next_title.empty()
+    if ss.show_card:
+        if ss.counter == ss.fake_index:
+            show_word(ss.display_category, 'Fake', ss.counter+1)
+        else:    
+            show_word(ss.display_category, ss.display_word, ss.counter+1)
 
-    if ss.counter == ss.fake_index:
-        show_word(ss.display_category, 'Fake', ss.counter+1)
-    else:    
-        show_word(ss.display_category, ss.display_word, ss.counter+1)
+        ss.counter +=1
 
-    ss.counter +=1
+        if ss.counter >= N_PLAYERS:
+            st.header('Now Draw...')
+            st.image(image, use_column_width=True)
+            st.subheader('Refresh page for new round')
 
-    if ss.counter >= N_PLAYERS:
-        st.header('Now Draw...')
-        st.image(image, use_column_width=True)
-        st.subheader('Refresh page for new round')
+    # else:
+    #     next_title  = title('Hand over the device to next Player..')
+
+    ss.show_card = not ss.show_card 
