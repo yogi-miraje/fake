@@ -1,0 +1,6 @@
+pandas
+numpy
+jinja2
+streamlit
+bokeh==2.2.3
+spacy
